@@ -49,10 +49,10 @@ func (m *Buffer) Cap() int {
 }
 
 func (m *Buffer) Free() {
-	BufferPool.Free(m)
+	GloBufferPool.Free(m)
 }
 
 //go:linkname NewBuffer github.com/jingyanbin/core/basal.NewBuffer
 func NewBuffer(size int) *Buffer {
-	return BufferPool.New(size)
+	return GloBufferPool.New(size)
 }
