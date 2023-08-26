@@ -1,41 +1,37 @@
 package log
 
 import (
-	"demo/tools/config"
 	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"io"
 	"testing"
-
-	"go.uber.org/zap"
 )
 
 func BenchmarkLog(b *testing.B) {
-	logger, _ := New(config.Conf.Log)
+	logs, _ := NewDefault()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		logger.Debug("A walrus appears",
-			zap.String("animal", "walrus"),
-			zap.Int("number", 1),
-			zap.Float64("size", 10.1),
-		)
+		logs.Info("A")
 	}
 }
 
 func BenchmarkZap(b *testing.B) {
-	logger, _ := zap.NewProduction(zap.WithCaller(true), zap.AddStacktrace(zapcore.DPanicLevel))
-	logger.Core().With([]zap.Field{String("k", "v")})
-	defer logger.Sync()
+
+	logs := zap.New(
+		zapcore.NewCore(
+			zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig()),
+			zapcore.AddSync(io.Discard),
+			zap.InfoLevel),
+	)
+	logs.Core().With([]zap.Field{String("k", "v")})
+	defer logs.Sync()
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		logger.Debug("A walrus appears",
-			zap.String("animal", "walrus"),
-			zap.Int("number", 1),
-			zap.Float64("size", 10.1),
-		)
+		logs.Info("A walrus appears")
 	}
 }
 

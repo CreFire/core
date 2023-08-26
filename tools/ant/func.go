@@ -124,25 +124,6 @@ func WaitForSystemExit(atexit ...func()) {
 		Stop()
 		//LogInfo("6666666666666666666")
 	}
-
-	//LogInfo("111111111111111111111111")
-	//atexitMapSync.Lock()
-	//for _, v := range atexitMap {
-	//	v()
-	//}
-	//atexitMapSync.Unlock()
-	//LogInfo("2222222222222222222222222")
-	//for _, v := range redisManagers {
-	//	v.close()
-	//}
-	//waitAllForRedis.Wait()
-	//LogInfo("33333333333333333333333333")
-	//if !atomic.CompareAndSwapInt32(&stopForLog, 0, 1) {
-	//	return
-	//}
-	//close(stopChanForLog)
-	//LogInfo("4444444444444444444444444")
-	//waitAllForLog.Wait()
 }
 
 func Daemon(skip ...string) {

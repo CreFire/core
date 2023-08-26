@@ -26,7 +26,7 @@ type Redis struct {
 func (r *Redis) ScriptStr(cmd int, keys []string, args ...interface{}) (string, error) {
 	data, err := r.Script(cmd, keys, args...)
 	if err != nil {
-		LogError("redis script failed err:%v", err)
+		LogError("redis pb failed err:%v", err)
 		return "", ErrDBErr
 	}
 	errcode, ok := data.(int64)
@@ -45,7 +45,7 @@ func (r *Redis) ScriptStr(cmd int, keys []string, args ...interface{}) (string, 
 func (r *Redis) ScriptStrArray(cmd int, keys []string, args ...interface{}) ([]string, error) {
 	data, err := r.Script(cmd, keys, args...)
 	if err != nil {
-		LogError("redis script failed err:%v", err)
+		LogError("redis pb failed err:%v", err)
 		return nil, ErrDBErr
 	}
 	errcode, ok := data.(int64)
@@ -73,7 +73,7 @@ func (r *Redis) ScriptStrArray(cmd int, keys []string, args ...interface{}) ([]s
 func (r *Redis) ScriptInt64(cmd int, keys []string, args ...interface{}) (int64, error) {
 	data, err := r.Script(cmd, keys, args...)
 	if err != nil {
-		LogError("redis script failed err:%v", err)
+		LogError("redis pb failed err:%v", err)
 		return 0, ErrDBErr
 	}
 	code, ok := data.(int64)
@@ -92,15 +92,15 @@ func (r *Redis) Script(cmd int, keys []string, args ...interface{}) (interface{}
 	if err != nil {
 		script, ok := scriptMap[cmd]
 		if !ok {
-			LogError("redis script error cmd not found cmd:%v", cmd)
+			LogError("redis pb error cmd not found cmd:%v", cmd)
 			return nil, ErrDBErr
 		}
 
 		if strings.HasPrefix(err.Error(), "NOSCRIPT ") {
-			LogInfo("try reload redis script %v", scriptCommitMap[cmd])
+			LogInfo("try reload redis pb %v", scriptCommitMap[cmd])
 			hash, err = r.ScriptLoad(script).Result()
 			if err != nil {
-				LogError("redis script load cmd:%v errstr:%s", scriptCommitMap[cmd], err)
+				LogError("redis pb load cmd:%v errstr:%s", scriptCommitMap[cmd], err)
 				return nil, ErrDBErr
 			}
 			scriptHashMap.Store(cmd, hash)
@@ -109,7 +109,7 @@ func (r *Redis) Script(cmd int, keys []string, args ...interface{}) (interface{}
 				return re, nil
 			}
 		}
-		LogError("redis script error cmd:%v err:%s", scriptCommitMap[cmd], err)
+		LogError("redis pb error cmd:%v err:%s", scriptCommitMap[cmd], err)
 		return nil, ErrDBErr
 	}
 

@@ -2,6 +2,7 @@ package antnet
 
 import (
 	"github.com/gogo/protobuf/proto"
+	"reflect"
 )
 
 type pBParser struct {
@@ -65,7 +66,8 @@ func PBUnPack(data []byte, msg interface{}) error {
 		} else {
 			text = data
 		}
-		LogWarn("PBUnPack Unmarshal error: %s, msg type: %v, len: %d/%d, data: %v", err.Error(), basal.Type(msg), len(text), dLen, text)
+		LogWarn("PBUnPack Unmarshal error: %s, msg type: %v, len: %d/%d, data: %v", err.Error(), reflect.TypeOf(msg), len(text),
+			dLen, text)
 		return ErrPBUnPack
 	}
 	return nil

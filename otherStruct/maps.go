@@ -1,7 +1,7 @@
 package otherStruct
 
 import (
-	"demo/tools/core"
+	"core/tools/core"
 	"encoding/json"
 )
 

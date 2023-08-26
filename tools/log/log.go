@@ -3,29 +3,29 @@ package log
 import "go.uber.org/zap"
 
 func Debug(msg string, fields ...zap.Field) {
-	logger.Debug(msg, fields...)
+	defLog.Debug(msg, fields...)
 }
 
 func Info(msg string, fields ...zap.Field) {
-	logger.Info(msg, fields...)
+	defLog.Info(msg, fields...)
 }
 
 func Warn(msg string, fields ...zap.Field) {
-	logger.Warn(msg, fields...)
+	defLog.Warn(msg, fields...)
 }
 
 func Error(msg string, fields ...zap.Field) {
-	logger.Error(msg, fields...)
+	defLog.Error(msg, fields...)
 }
 
 func DPanic(msg string, fields ...zap.Field) {
-	logger.DPanic(msg, fields...)
+	defLog.DPanic(msg, fields...)
 }
 
 func Panic(msg string, fields ...zap.Field) {
-	logger.Panic(msg, fields...)
+	defLog.Panic(msg, fields...)
 }
 
 func Fatal(msg string, fields ...zap.Field) {
-	logger.Fatal(msg, fields...)
+	defLog.Fatal(msg, fields...)
 }

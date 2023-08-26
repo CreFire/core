@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"github.com/gogo/protobuf/proto"
 	"github.com/vmihailenco/msgpack"
+	"reflect"
 )
 
 type RedisModel struct{}
@@ -108,7 +109,7 @@ func PbData(v proto.Message) []byte {
 	if data, err := proto.Marshal(v); err == nil {
 		return data
 	} else {
-		panic(Sprintf("PbData error msg: %v, type: %v, err: %v", v, basal.Type(v), err.Error()))
+		panic(Sprintf("PbData error msg: %v, type: %v, err: %v", v, reflect.TypeOf(v), err.Error()))
 	}
 }
 

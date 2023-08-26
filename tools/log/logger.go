@@ -1,26 +1,56 @@
 package log
 
 import (
-	"demo/tools/config"
+	"core/tools/config"
 	"errors"
 	"fmt"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"io"
 	"os"
 )
 
-var logger *zap.Logger
+var defLog *zap.Logger
 
-func init() {
+func Start() {
 	var err error
-	logger, err = New(config.Conf.Log)
+	defLog, err = New(config.Conf.Log)
 	if err != nil {
-		_ = fmt.Errorf("err init new logger %v", err)
+		_ = fmt.Errorf("err init new defLog %v", err)
 		return
 	}
-	loggerF = logger.Sugar()
-	logger.Info("Logger initialization successful")
+	loggerF = defLog.Sugar()
+	loggerF.WithOptions(AddCallerSkip(1))
+	Info("Logger initialization successful")
+}
+func NewDefault() (*zap.Logger, error) {
+	var (
+		level   zapcore.Level
+		writer  zapcore.WriteSyncer
+		encoder zapcore.Encoder
+		core    zapcore.Core
+	)
+
+	// 解析日志级别
+	if err := level.UnmarshalText([]byte("INFO")); err != nil {
+		return nil, err
+	}
+
+	// 设置日志编码器
+	encoder = zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
+	// 设置日志输出
+	writer = zapcore.AddSync(io.Discard)
+	// 组合日志核心
+	core = zapcore.NewCore(encoder, writer, level)
+
+	// 添加 Caller 和 StackTrace
+	zap.NewProduction(zap.IncreaseLevel(zapcore.DebugLevel))
+
+	newLogger := zap.New(core, IncreaseLevel(zap.DebugLevel)) // zap.AddCaller(), zap.AddStacktrace(zapcore.DPanicLevel)
+	newLogger = newLogger.WithOptions(AddCallerSkip(1))
+
+	return newLogger, nil
 }
 func New(cfg *config.Log) (*zap.Logger, error) {
 	var (
@@ -78,6 +108,7 @@ func New(cfg *config.Log) (*zap.Logger, error) {
 
 	// 添加 Caller 和 StackTrace
 	newLogger := zap.New(core, zap.AddCaller(), zap.AddStacktrace(zapcore.DPanicLevel))
+	newLogger = newLogger.WithOptions(AddCallerSkip(1))
 	if fileCore != nil {
 		fileLogger := zap.New(fileCore, zap.AddCaller(), zap.AddStacktrace(zapcore.DPanicLevel))
 		defer fileLogger.Sync()

@@ -52,7 +52,6 @@ func (m *Buffer) Free() {
 	GloBufferPool.Free(m)
 }
 
-//go:linkname NewBuffer github.com/jingyanbin/core/basal.NewBuffer
 func NewBuffer(size int) *Buffer {
 	return GloBufferPool.New(size)
 }

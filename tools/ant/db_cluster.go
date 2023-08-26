@@ -7,14 +7,18 @@
 package antnet
 
 import (
+	"demo/tools/core"
+	"fmt"
 	"github.com/go-redis/redis"
+	"github.com/pkg/errors"
+	"reflect"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 )
 
-var formatter = basal.NewFormatter('@', '<', '>', false)
+var formatter = core.NewFormatter('@', '<', '>', false)
 var scripts = map[string]*Script{}
 
 func GetScript(hash string) *Script {
@@ -27,16 +31,16 @@ type Script struct {
 }
 
 func (m *Script) String() string {
-	return "\n-------------------redis script--------------------\n" + m.lua + "\n---------------------------------------------------"
+	return "\n-------------------redis pb--------------------\n" + m.lua + "\n---------------------------------------------------"
 }
 
-func NewScript(lua string, kws basal.KwArgs, args ...interface{}) *Script {
+func NewScript(lua string, kws core.KwArgs, args ...interface{}) *Script {
 	str := strings.TrimSpace(lua)
-	src := basal.Sprintf(formatter.Format(str, kws), args...)
+	src := fmt.Sprintf(formatter.Format(str, kws), args...)
 	s := &Script{script: redis.NewScript(src), lua: src}
 	_, ok := scripts[s.script.Hash()]
 	if ok {
-		panic(basal.NewError("new script exists: %v", s))
+		panic(errors.Errorf("new pb exists: %v", s))
 	}
 	scripts[s.script.Hash()] = s
 	return s
@@ -46,7 +50,7 @@ type ScriptInt64 struct {
 	*Script
 }
 
-func NewScriptInt64(lua string, kws basal.KwArgs, args ...interface{}) *ScriptInt64 {
+func NewScriptInt64(lua string, kws core.KwArgs, args ...interface{}) *ScriptInt64 {
 	return &ScriptInt64{Script: NewScript(lua, kws, args...)}
 }
 
@@ -54,7 +58,7 @@ type ScriptString struct {
 	*Script
 }
 
-func NewScriptString(lua string, kws basal.KwArgs, args ...interface{}) *ScriptString {
+func NewScriptString(lua string, kws core.KwArgs, args ...interface{}) *ScriptString {
 	return &ScriptString{Script: NewScript(lua, kws, args...)}
 }
 
@@ -62,7 +66,7 @@ type ScriptSlice struct {
 	*Script
 }
 
-func NewScriptSlice(lua string, kws basal.KwArgs, args ...interface{}) *ScriptSlice {
+func NewScriptSlice(lua string, kws core.KwArgs, args ...interface{}) *ScriptSlice {
 	return &ScriptSlice{Script: NewScript(lua, kws, args...)}
 }
 
@@ -70,7 +74,7 @@ type ScriptSliceInt64 struct {
 	*ScriptSlice
 }
 
-func NewScriptSliceInt64(lua string, kws basal.KwArgs, args ...interface{}) *ScriptSliceInt64 {
+func NewScriptSliceInt64(lua string, kws core.KwArgs, args ...interface{}) *ScriptSliceInt64 {
 	return &ScriptSliceInt64{ScriptSlice: NewScriptSlice(lua, kws, args...)}
 }
 
@@ -78,7 +82,7 @@ type ScriptSliceFloat64 struct {
 	*ScriptSlice
 }
 
-func NewScriptSliceFloat64(lua string, kws basal.KwArgs, args ...interface{}) *ScriptSliceFloat64 {
+func NewScriptSliceFloat64(lua string, kws core.KwArgs, args ...interface{}) *ScriptSliceFloat64 {
 	return &ScriptSliceFloat64{ScriptSlice: NewScriptSlice(lua, kws, args...)}
 }
 
@@ -86,7 +90,7 @@ type ScriptSliceString struct {
 	*ScriptSlice
 }
 
-func NewScriptSliceString(lua string, kws basal.KwArgs, args ...interface{}) *ScriptSliceString {
+func NewScriptSliceString(lua string, kws core.KwArgs, args ...interface{}) *ScriptSliceString {
 	return &ScriptSliceString{ScriptSlice: NewScriptSlice(lua, kws, args...)}
 }
 
@@ -193,10 +197,10 @@ func (c *Cluster) ScriptInt64(s *ScriptInt64, keys []string, args ...interface{}
 	if res, ok := result.(int64); ok {
 		return res, nil
 	}
-	return 0, basal.NewError("redis result type is %v", basal.Type(result))
+	return 0, errors.Errorf("redis result type is %v", reflect.TypeOf(result))
 }
 
-var ErrResultNotString = basal.NewError("redis result not is string")
+var ErrResultNotString = errors.New("redis result not is string")
 
 func (c *Cluster) ScriptString(s *ScriptString, keys []string, args ...interface{}) (string, error) {
 	result, err := c.Script(s.Script, keys, args...)
@@ -209,7 +213,7 @@ func (c *Cluster) ScriptString(s *ScriptString, keys []string, args ...interface
 	return "", ErrResultNotString
 }
 
-var ErrResultNotSlice = basal.NewError("redis result not is []interface")
+var ErrResultNotSlice = errors.New("redis result not is []interface")
 
 func (c *Cluster) ScriptSlice(s *ScriptSlice, keys []string, args ...interface{}) ([]interface{}, error) {
 	result, err := c.Script(s.Script, keys, args...)
@@ -222,7 +226,7 @@ func (c *Cluster) ScriptSlice(s *ScriptSlice, keys []string, args ...interface{}
 	return nil, ErrResultNotSlice
 }
 
-var ErrResultNotSliceInt64 = basal.NewError("redis result not is []int64")
+var ErrResultNotSliceInt64 = errors.New("redis result not is []int64")
 
 func (c *Cluster) ScriptSliceInt64(s *ScriptSliceInt64, keys []string, args ...interface{}) ([]int64, error) {
 	result, err := c.ScriptSlice(s.ScriptSlice, keys, args...)
@@ -240,7 +244,7 @@ func (c *Cluster) ScriptSliceInt64(s *ScriptSliceInt64, keys []string, args ...i
 	return res, nil
 }
 
-var ErrResultNotSliceFloat64 = basal.NewError("redis result not is []float64")
+var ErrResultNotSliceFloat64 = errors.New("redis result not is []float64")
 
 func (c *Cluster) ScriptSliceFloat64(s *ScriptSliceFloat64, keys []string, args ...interface{}) ([]float64, error) {
 	result, err := c.ScriptSlice(s.ScriptSlice, keys, args...)
@@ -258,7 +262,7 @@ func (c *Cluster) ScriptSliceFloat64(s *ScriptSliceFloat64, keys []string, args 
 	return res, nil
 }
 
-var ErrResultNotSliceString = basal.NewError("redis result not is []string")
+var ErrResultNotSliceString = errors.New("redis result not is []string")
 
 func (c *Cluster) ScriptSliceString(s *ScriptSliceString, keys []string, args ...interface{}) ([]string, error) {
 	result, err := c.ScriptSlice(s.ScriptSlice, keys, args...)

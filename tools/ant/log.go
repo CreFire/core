@@ -1,6 +1,7 @@
 package antnet
 
 import (
+	"demo/tools/datetime"
 	"fmt"
 	"github.com/gogo/protobuf/proto"
 	"os"
@@ -393,10 +394,4 @@ func (*iLogger) InfoF(format string, v ...interface{}) {
 	args[0] = format
 	copy(args[1:], v)
 	DefLog.Info(args...)
-}
-
-var logger = &iLogger{}
-
-func GetLogger() basal.ILogger {
-	return logger
 }

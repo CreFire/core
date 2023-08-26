@@ -1,0 +1,36 @@
+server:
+  host: 0.0.0.0 # 服务器绑定的 IP 地址
+  port: ":8080" # 服务器监听的端口号
+
+log:
+  compress: false # 是否对旧日志使用 gzip 进行压缩
+  level: "debug" # 日志级别：debug, info, warn, error, dpanic, panic, fatal
+  maxage: 30 # 日志保留时间，单位：天
+  maxsize: 10 # 单个日志文件最多存储量，单位：bytes
+  outputPaths: # 输出日志位置
+    - "/tmp/logs" # 输出到文件 /tmp/logs
+    - "stdout"   # 同时输出到控制台
+  encoderConfig: # 编码方式
+    messageKey: "message" # 日志消息的字段名
+    levelKey: "level"     # 日志级别的字段名
+    levelEncoder: "lowercase" # 日志级别编码方式：capital, color, lowercase, uppercase
+  filename: "" #"myapp.log" # 输出日志文件名
+  encoding: "prod" # 日志编码方式：console, json
+  errorOutputPaths:
+    - "/var/log/myapp_error.log" # 错误日志输出到 /var/log/myapp_error.log
+    - "stderr"                   # 同时输出到标准错误输出
+  file_max_backups: 2 # 日志备份文件最多数量
+  stdout: true # 是否输出到控制台
+### 数据库配置, Mysql SQLite3 二选一 优先Sqlite3
+sqlite3:
+  enable: false # 是否启用 SQLite3 数据库
+mysql:
+  host: 1.1.1.1 # MySQL 数据库主机地址
+  port: 3306 # MySQL 数据库端口号
+  db: chatDb # MySQL 数据库名称
+  username: "1" # MySQL 数据库用户名
+  password: "1" # MySQL 数据库密码
+
+rain:
+  mode: "development" # 框架运行模式，支持 development 和 production 两种模式
+  workDir: "./" # 工作目录，用于存放临时文件和日志文件等，默认为当前路径

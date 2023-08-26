@@ -23,9 +23,6 @@ const fourYears = 365 + 365 + 366 + 365 //每个四年的总天数
 var norMonth = [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}  //平年
 var leapMonth = [12]int{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31} //闰年
 
-var norMonth = [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}  //平年
-var leapMonth = [12]int{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31} //闰年
-
 // Unix 返回秒级时间戳
 func Unix() int64 {
 	return time.Now().Unix()
@@ -330,10 +327,10 @@ func UnixToDateClock(unix int64, zone TimeZone) (year, month, day, hour, min, se
 // @return:      year, month, day, hour, min, sec int "日期时间"
 // @return:      error "错误信息"
 func FormatToDateClock(s, formatter string, extend bool) (year, month, day, hour, min, sec int, err error) {
-	defer internal.Exception(func(stack string, e error) {
+	defer core.Exception(func(stack string, e error) {
 		err = errors.Errorf("format to date clock error exception: %v, %v \n%v", s, formatter, stack)
 	})
-	numbers := basal.NewNextNumber(s)
+	numbers := core.NewNextNumber(s)
 	var found bool
 
 	length := len(formatter)
@@ -682,7 +679,7 @@ func UnixWeekAnyTimeA(unix int64, week, hour, min, sec int, zone TimeZone) (int6
 // @param:       unix int64 "秒级时间戳"
 // @param:       week 1-7
 func UnixInBetweenWeekTimeA(unix int64, startTime, endTime string, zone TimeZone) (bool, error) {
-	startNums, endNums := basal.NewNextNumber(startTime).Numbers(), basal.NewNextNumber(endTime).Numbers()
+	startNums, endNums := core.NewNextNumber(startTime).Numbers(), core.NewNextNumber(endTime).Numbers()
 	if len(startNums) != 4 || len(endNums) != 4 {
 		return false, errors.Errorf("time error: %s, %s", startTime, endTime)
 	}
@@ -755,7 +752,7 @@ func UnixYearEndTime(unix int64, zone TimeZone) int64 {
 
 // @description: 判断时间戳是否在一段时间范围内 eg: 08-15 12:00:00 => 01-15 13:00:00
 func UnixInBetweenMonthTime(unix int64, startTime string, endTime string, zone TimeZone) (bool, error) {
-	startNums, endNums := basal.NewNextNumber(startTime).Numbers(), basal.NewNextNumber(endTime).Numbers()
+	startNums, endNums := core.NewNextNumber(startTime).Numbers(), core.NewNextNumber(endTime).Numbers()
 	if len(startNums) != 5 || len(endNums) != 5 {
 		return false, errors.Errorf("time error: %s, %s", startTime, endTime)
 	}
@@ -883,7 +880,7 @@ func UnixDayAnyTime(unix int64, hour, min, sec int, zone TimeZone) (int64, error
 // @description: 判断时间戳是否在时间范围内 小时级别 eg: 12:00:00 => 13:00:00
 // @param:       unix int64 "秒级时间戳"
 func UnixInBetweenHourTime(unix int64, startTime string, endTime string, zone TimeZone) (bool, error) {
-	startNums, endNums := basal.NewNextNumber(startTime).Numbers(), basal.NewNextNumber(endTime).Numbers()
+	startNums, endNums := core.NewNextNumber(startTime).Numbers(), core.NewNextNumber(endTime).Numbers()
 	if len(startNums) != 3 || len(endNums) != 3 {
 		return false, errors.Errorf("time error: %s, %s", startTime, endTime)
 	}
@@ -918,7 +915,7 @@ func UnixInBetweenHourTime(unix int64, startTime string, endTime string, zone Ti
 // @param:       unix int64 "秒级时间戳"
 // @return: 是否在时间范围内, 开始时间戳, 结束时间戳, 错误信息
 func UnixScopeHourTime(unix int64, startHms string, endHms string, zone TimeZone) (bool, int64, int64, error) {
-	startNums, endNums := basal.NewNextNumber(startHms).Numbers(), basal.NewNextNumber(endHms).Numbers()
+	startNums, endNums := core.NewNextNumber(startHms).Numbers(), core.NewNextNumber(endHms).Numbers()
 	if len(startNums) != 3 || len(endNums) != 3 {
 		return false, 0, 0, errors.Errorf("time error: %s, %s", startHms, endHms)
 	}
