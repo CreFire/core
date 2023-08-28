@@ -7,7 +7,7 @@
 package antnet
 
 import (
-	"demo/tools/core"
+	"core/tools/core"
 	"fmt"
 	"github.com/go-redis/redis"
 	"github.com/pkg/errors"

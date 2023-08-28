@@ -1,6 +1,8 @@
 package antnet
 
 import (
+	"core/pb"
+	"core/tools/core"
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
@@ -224,7 +226,7 @@ func Itoa(num interface{}) string {
 
 // 用此函数必然会打印堆栈信息以及错误信息,并且会加入统计
 func Try(fun func(), handler func(stack string, e error)) {
-	defer basal.Exception(handler, func(stack string, e error) { //antnet Try
+	defer core.Exception(handler, func(stack string, e error) { //antnet Try
 		LogError(stack)
 		Statistics.AddPanic(stack)
 	})

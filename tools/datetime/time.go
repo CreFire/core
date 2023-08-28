@@ -1,7 +1,7 @@
 package datetime
 
 import (
-	"demo/tools/core"
+	"core/tools/core"
 	"github.com/pkg/errors"
 	"strconv"
 	"strings"

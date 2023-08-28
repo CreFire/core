@@ -1,6 +1,7 @@
 package antnet
 
 import (
+	"core/tools/core"
 	"io"
 	"net"
 	"strings"
@@ -256,7 +257,7 @@ var (
 	scriptHashMap sync.Map
 )
 
-var ScriptFormatter = basal.NewFormatter('@', '<', '>', false)
+var ScriptFormatter = core.NewFormatter('@', '<', '>', false)
 
 func NewRedisScript(commit, str string) int {
 	cmd := int(atomic.AddInt32(&scriptIndex, 1))
