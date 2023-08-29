@@ -1,0 +1,50 @@
+syntax = "proto3";
+package doc;
+option go_package="./pb";
+service MyService {
+  rpc MyMethod(MyRequest) returns (MyResponse);
+}
+
+message MyRequest {
+  string request_data = 1;
+}
+
+message MyResponse {
+  string response_data = 1;
+}
+
+enum CMD {//命令
+  CMDNONE         = 0;   //空
+  LOGIN           = 1;   //登录命令
+  MAIN            = 2;   //主命令
+  INNER           = 200; //服务器内部消息命令
+  CLIENT          = 201; //客户端内部消息命令
+  PVP             = 3;   //战斗
+  NOTIFY          = 4;   //通知
+  MATCHING        = 5;   //匹配
+  AUTH            = 6;   //登录认证服命令
+  PAYMENT         = 7;   //充值服命令
+  PACK            = 8;   //道具背包
+}
+
+enum ACT{ //行动
+  CMDNONE_NONE       = 0; //空
+  //-------------------------------------------内网服消息开始----------------------------------------------------
+  INNER_SERVERINFO          = 1;  //服务器启动
+  INNER_RPCFORWARD          = 2;  //内网消息重定向
+  INNER_GMCMD               = 3;  //GM命令
+}
+
+enum ERROR{
+  SUCCESS = 0;// 成功
+  FAIL =1;// 失败
+}
+
+
+message InnerNotfiyEmailData
+{
+  string   name        = 1; //服务器名称
+  repeated string ips  = 2; //ip数据
+  string          data = 3; //信息
+  string          dt   = 4; //日期时间
+}
