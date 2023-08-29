@@ -1,6 +1,7 @@
 package antnet
 
 import (
+	"core/tools/core"
 	"sync"
 	"sync/atomic"
 )
@@ -52,7 +53,7 @@ func Go(fn func()) {
 		LogDebug("goroutine start id:%d count:%d from:%s", id, c, debugStr)
 	}
 
-	name, file, line := basal.CallerInFunc(2)
+	name, file, line := core.CallerInFunc(2)
 	goInfo.Set(id, Sprintf("%s, %s:%d", name, file, line))
 	//LogInfo("go created by %v, %v:%v", name, file, line)
 	go func() {
@@ -84,7 +85,7 @@ func Go2(fn func(cstop chan struct{})) bool {
 		debugStr = LogSimpleStack()
 		LogDebug("goroutine start id:%d count:%d from:%s", id, c, debugStr)
 	}
-	name, file, line := basal.CallerInFunc(2)
+	name, file, line := core.CallerInFunc(2)
 	goInfo.Set(id, Sprintf("%s, %s:%d", name, file, line))
 	//LogInfo("go2 created by %v, %v:%v", name, file, line)
 	go func() {

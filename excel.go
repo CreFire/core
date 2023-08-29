@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func main() {
+func main2() {
 	// 获取文件名参数，如果未传递参数则使用默认值
 	fileName := "example.xlsx"
 	if len(os.Args) > 1 {

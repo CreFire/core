@@ -1,6 +1,8 @@
 package antnet
 
 import (
+	"core/pb"
+	"core/tools/datetime"
 	"math/rand"
 	"os"
 	"runtime"
@@ -19,7 +21,7 @@ type statistics struct {
 func (m *statistics) AddPanic(stack string) {
 	atomic.AddInt32(&m.panicCount, 1)
 	atomic.StoreInt64(&m.lastPanic, Timestamp)
-	data := &pb.InnerNotfiyEmailData{Data: stack, Dt: datetime.UnixToYmdHMS(datetime.Unix(), timezone.Local())}
+	data := &pb.InnerNotfiyEmailData{Data: stack, Dt: datetime.UnixToYmdHMS(datetime.Unix(), datetime.Local())}
 	select {
 	case m.PanicStacks <- data:
 	default:

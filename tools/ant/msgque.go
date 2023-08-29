@@ -1,7 +1,7 @@
 package antnet
 
 import (
-	"demo/tools/core"
+	"core/tools/core"
 	"encoding/binary"
 	"github.com/xtaci/kcp-go"
 	"net"

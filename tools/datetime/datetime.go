@@ -1,7 +1,7 @@
 package datetime
 
 import (
-	"demo/tools/core"
+	"core/tools/core"
 )
 
 type DateTime struct {

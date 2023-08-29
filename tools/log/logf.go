@@ -1,17 +1,20 @@
 package log
 
 import (
+	"fmt"
 	"go.uber.org/zap"
 )
 
 var loggerF *zap.SugaredLogger
 
 func DebugF(msg string, fields ...any) {
-	loggerF.Debug(msg, fields)
+	str := fmt.Sprint(fields...)
+	loggerF.Debug(str)
 }
 
-func InfoF(msg string, fields ...any) {
-	loggerF.Info(msg, fields)
+func InfoF(fields ...any) {
+	str := fmt.Sprint(fields...)
+	loggerF.Info(str)
 }
 
 func WarnF(msg string, fields ...any) {

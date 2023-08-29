@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func main() {
+func main1() {
 	var hashType string
 
 	rootCmd := &cobra.Command{

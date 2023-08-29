@@ -37,8 +37,6 @@ func CallerShort(skip int) (file string, line int) {
 }
 
 // Caller 调用信息长文件名
-//
-//go:linkname Caller github.com/jingyanbin/core/basal.Caller
 func Caller(skip int) (file string, line int) {
 	var ok bool
 	_, file, line, ok = runtime.Caller(skip)
@@ -49,7 +47,6 @@ func Caller(skip int) (file string, line int) {
 	return
 }
 
-//go:linkname CallerInFunc github.com/jingyanbin/core/basal.CallerInFunc
 func CallerInFunc(skip int) (name string, file string, line int) {
 	var pc uintptr
 	var ok bool
@@ -64,7 +61,6 @@ func CallerInFunc(skip int) (name string, file string, line int) {
 	return
 }
 
-//go:linkname CallerLineStack github.com/jingyanbin/core/basal.CallerLineStack
 func CallerLineStack(stack string) (name string, file string) {
 	name = "???"
 	file = "???"

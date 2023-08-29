@@ -26,31 +26,22 @@ func Start() {
 }
 func NewDefault() (*zap.Logger, error) {
 	var (
-		level   zapcore.Level
 		writer  zapcore.WriteSyncer
 		encoder zapcore.Encoder
 		core    zapcore.Core
 	)
-
-	// 解析日志级别
-	if err := level.UnmarshalText([]byte("INFO")); err != nil {
-		return nil, err
-	}
 
 	// 设置日志编码器
 	encoder = zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
 	// 设置日志输出
 	writer = zapcore.AddSync(io.Discard)
 	// 组合日志核心
-	core = zapcore.NewCore(encoder, writer, level)
+	core = zapcore.NewCore(encoder, writer, zapcore.InfoLevel)
 
-	// 添加 Caller 和 StackTrace
-	zap.NewProduction(zap.IncreaseLevel(zapcore.DebugLevel))
-
-	newLogger := zap.New(core, IncreaseLevel(zap.DebugLevel)) // zap.AddCaller(), zap.AddStacktrace(zapcore.DPanicLevel)
-	newLogger = newLogger.WithOptions(AddCallerSkip(1))
-
-	return newLogger, nil
+	defLog = zap.New(core) // zap.AddCaller(), zap.AddStacktrace(zapcore.DPanicLevel)
+	defLog = defLog.WithOptions(AddCallerSkip(1))
+	loggerF = defLog.Sugar()
+	return defLog, nil
 }
 func New(cfg *config.Log) (*zap.Logger, error) {
 	var (
