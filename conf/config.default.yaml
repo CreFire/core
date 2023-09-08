@@ -8,7 +8,7 @@ log:
   maxage: 30 # 日志保留时间，单位：天
   maxsize: 10 # 单个日志文件最多存储量，单位：bytes
   outputPaths: # 输出日志位置
-    - "/tmp/logs" # 输出到文件 /tmp/logs
+    - "./logs" # 输出到文件 /tmp/logs
     - "stdout"   # 同时输出到控制台
   encoderConfig: # 编码方式
     messageKey: "message" # 日志消息的字段名

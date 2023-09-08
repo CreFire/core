@@ -13,7 +13,7 @@ import (
 
 var defLog *zap.Logger
 
-func Start() {
+func init() {
 	var err error
 	defLog, err = New(config.Conf.Log)
 	if err != nil {

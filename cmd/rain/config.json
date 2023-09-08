@@ -1,0 +1,12 @@
+{
+  "isbn": {
+    "outputDir": "E:\\remoteWork\\server\\server\\sv_server_main_isbn\\src\\proto\\pb",
+    "protoFile":"E:\\remoteWork\\server\\NetPb\\sv_pb_main_isbn\\proto",
+    "envBase": "E:\\remoteWork\\server\\NetPb\\sv_pb_main_isbn"
+  },
+  "main": {
+    "outputDir": "E:\\remoteWork\\server\\server\\sv_server_main\\src\\proto\\pb",
+    "protoFile":"E:\\remoteWork\\server\\NetPb\\sv_pb_main\\proto",
+    "envBase": "E:\\remoteWork\\server\\NetPb\\sv_pb_main"
+  }
+}

@@ -36,7 +36,7 @@ func newCore(options ...Option) {
 	}
 }
 
-func main() {
+func main1() {
 	var k = lv(1)
 	newCore(Level(k))
 }

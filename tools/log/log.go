@@ -17,7 +17,9 @@ func Warn(msg string, fields ...zap.Field) {
 func Error(msg string, fields ...zap.Field) {
 	defLog.Error(msg, fields...)
 }
-
+func Errf(err error) {
+	defLog.Error("", Err(err))
+}
 func DPanic(msg string, fields ...zap.Field) {
 	defLog.DPanic(msg, fields...)
 }
