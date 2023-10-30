@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
-	"core/tools/log"
 	"fmt"
 	"github.com/360EntSecGroup-Skylar/excelize"
+	"github.com/core/tools/log"
 	"os"
 	"strings"
 )

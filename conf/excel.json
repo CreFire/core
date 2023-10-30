@@ -1,0 +1,14 @@
+{
+  "basePath": "./testfile",
+  "excelPath": "/excel",
+  "genCsPath": "/generated/cs",
+  "genGoPath": "/generated/go",
+  "genJsonPath": "/generated/json",
+  "genProtobufPath": "/generated/protobuf",
+  "genProtobufDataPath": "/generated/protobuf/data",
+  "genProtobufCSPath": "/generated/protobuf/cs",
+  "customTypePath": "/custom/types",
+  "csvPath": "/csv",
+  "md5Path": "/md5",
+  "proto": "/e/remoteWork/server/NetPb/sv_pb_main"
+}

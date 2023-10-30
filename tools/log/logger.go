@@ -1,9 +1,9 @@
 package log
 
 import (
-	"core/tools/config"
 	"errors"
 	"fmt"
+	"github.com/core/tools/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -38,7 +38,7 @@ func NewDefault() (*zap.Logger, error) {
 	// 组合日志核心
 	core = zapcore.NewCore(encoder, writer, zapcore.InfoLevel)
 
-	defLog = zap.New(core) // zap.AddCaller(), zap.AddStacktrace(zapcore.DPanicLevel)
+	defLog = zap.New(core, zap.AddCaller(), zap.AddStacktrace(zapcore.DPanicLevel))
 	defLog = defLog.WithOptions(AddCallerSkip(1))
 	loggerF = defLog.Sugar()
 	return defLog, nil

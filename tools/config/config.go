@@ -15,7 +15,7 @@ var Conf *Config
 // config init
 func init() {
 	Conf = &Config{}
-	viper.AddConfigPath("../../conf")     // 设置配置文件路径
+	viper.AddConfigPath("./conf")         // 设置配置文件路径
 	viper.SetConfigName("config.default") // 设置配置文件名
 	err := viper.ReadInConfig()           // 读取配置文件
 	if err != nil {

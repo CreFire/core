@@ -1,4 +1,4 @@
-module core
+module github.com/core
 
 go 1.19
 
@@ -8,7 +8,6 @@ require (
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gogo/protobuf v1.3.2
 	github.com/pkg/errors v0.9.1
-	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.16.0
 	github.com/vmihailenco/msgpack v3.3.3+incompatible
